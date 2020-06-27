@@ -1,11 +1,9 @@
-package com.karasik.db.security;
+package com.karasik.security;
 
 import com.karasik.util.helpers.HashingHelper;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 public class HashingTest {
