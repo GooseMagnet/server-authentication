@@ -11,15 +11,21 @@ import com.mongodb.client.MongoDatabase;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 public class MongoDao {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
     private static final String mongodb_database = PropertyReader.getProperty("mongo.database");
     private static final String mongodb_collection = PropertyReader.getProperty("mongo.collection");
+
+    @Inject
+    public MongoDao(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     public String createUser(UserDto userDto) throws JsonProcessingException {
         MongoCollection<Document> mongoCollection = getUsersCollection();
