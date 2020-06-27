@@ -1,3 +1,8 @@
+### Setup
+```shell script
+docker-compose up -d
+```
+
 ### Register a user 
 email: `test@test.test`
 

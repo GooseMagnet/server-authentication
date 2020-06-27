@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserDto {
+public class UserDto implements Cloneable {
 
     @Setter
     @Getter
@@ -26,4 +26,9 @@ public class UserDto {
     @Setter
     @Getter
     private String salt;
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }
