@@ -10,10 +10,6 @@ import java.security.spec.InvalidKeySpecException;
 
 public class HashingTest {
 
-    @BeforeAll
-    public static void classSetup() {
-    }
-
     @Test
     public void hashSamePasswordUsingSameSalt() {
         try {
@@ -24,8 +20,8 @@ public class HashingTest {
             String secondHash = HashingHelper.generatePBKDF2WithHmacSHA512Hash(badPassword, salt);
             System.out.println(secondHash);
             Assertions.assertEquals(firstHash, secondHash);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new RuntimeException(e);
+        } catch (InvalidKeySpecException ikse) {
+            throw new RuntimeException(ikse);
         }
     }
 
@@ -43,8 +39,8 @@ public class HashingTest {
             System.out.println(firstHash);
             System.out.println(secondHash);
             Assertions.assertNotEquals(firstHash, secondHash);
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new RuntimeException(e);
+        } catch (InvalidKeySpecException ikse) {
+            throw new RuntimeException(ikse);
         }
     }
 }

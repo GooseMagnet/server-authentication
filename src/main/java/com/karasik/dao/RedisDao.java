@@ -8,10 +8,20 @@ import com.karasik.util.properies.PropertyReader;
 import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
 
+import javax.inject.Inject;
+
 @Slf4j
 public class RedisDao {
-    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    private final ObjectMapper objectMapper;
+
     public static final int defaultExpiryInSeconds = Integer.parseInt(PropertyReader.getProperty("redis.expiryInSeconds"));
+
+    @Inject
+    public RedisDao(ObjectMapper objectMapper) {
+        log.info("Initialized RedisDao");
+        this.objectMapper = objectMapper;
+    }
 
     public SessionDto getSession(String sessionId) {
         try (Jedis jedis = RedisConnector.getConnection()) {

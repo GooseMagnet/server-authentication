@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
+@Slf4j
 public final class HashingHelper {
 
     private static final String PBKDF2WithHmacSHA512 = "PBKDF2WithHmacSHA512";
@@ -26,8 +27,13 @@ public final class HashingHelper {
         return salt;
     }
 
-    public static String generatePBKDF2WithHmacSHA512Hash(String plaintextPassword, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        SecretKeyFactory skf = SecretKeyFactory.getInstance(PBKDF2WithHmacSHA512);
+    public static String generatePBKDF2WithHmacSHA512Hash(String plaintextPassword, byte[] salt) throws InvalidKeySpecException {
+        SecretKeyFactory skf = null;
+        try {
+            skf = SecretKeyFactory.getInstance(PBKDF2WithHmacSHA512);
+        } catch (NoSuchAlgorithmException nsae) {
+            log.error("Algorithm {} doesn't exist for encrypting password", PBKDF2WithHmacSHA512);
+        }
         PBEKeySpec spec = new PBEKeySpec(plaintextPassword.toCharArray(), salt, ITERATIONS, KEY_LENGTH);
         SecretKey key = skf.generateSecret(spec);
         byte[] hashBytes = key.getEncoded();

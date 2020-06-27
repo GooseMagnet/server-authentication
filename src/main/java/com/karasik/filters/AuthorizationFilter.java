@@ -5,6 +5,7 @@ import com.karasik.exception.UnauthorizedAccessException;
 import com.karasik.model.SessionDto;
 import com.karasik.util.annotations.AuthorizedResource;
 
+import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ContainerResponseContext;
@@ -16,7 +17,12 @@ import java.util.Objects;
 @AuthorizedResource
 public class AuthorizationFilter implements ContainerRequestFilter, ContainerResponseFilter {
 
-    RedisDao redisDao = new RedisDao();
+    RedisDao redisDao;
+
+    @Inject
+    protected AuthorizationFilter(RedisDao redisDao) {
+        this.redisDao = redisDao;
+    }
 
     @Override
     public void filter(ContainerRequestContext containerRequestContext) {
@@ -27,7 +33,7 @@ public class AuthorizationFilter implements ContainerRequestFilter, ContainerRes
                 return;
             }
         }
-        throw new UnauthorizedAccessException("Unauthorized");
+        throw new UnauthorizedAccessException("You must be logged in to access this resource");
     }
 
     @Override
